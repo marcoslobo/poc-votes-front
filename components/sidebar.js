@@ -1,19 +1,21 @@
-import Link from 'next/link'
-import styles from './sidebar.module.css'
+import Link from "next/link";
+import styles from "./sidebar.module.css";
 
 export default function Sidebar() {
   return (
     <nav className={styles.nav}>
-      <input className={styles.input} placeholder="Search..." />
       <Link href="/">
         <a>Home</a>
       </Link>
-      <Link href="/about">
-        <a>About</a>
+      <Link href="/vote">
+        <a>Vote</a>
       </Link>
-      <Link href="/contact">
-        <a>Contact</a>
+      <Link href="/admin">
+        <a>Admin</a>
+      </Link>
+      <Link href="/token">
+        <a>Token</a>
       </Link>
     </nav>
-  )
+  );
 }

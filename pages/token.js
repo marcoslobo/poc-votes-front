@@ -2,10 +2,13 @@ import Layout from "../components/layout";
 import Sidebar from "../components/sidebar";
 import { toast, ToastContainer } from "react-nextjs-toast";
 import React, { useEffect } from "react";
+import { Button } from "reactstrap";
+import { CONTRACT_VOTER } from "./../util/constants";
+import abiVoter from "./../abi/voter.json";
+import { ethers } from "ethers";
 
 export default function Index() {
   useEffect(() => {
-    
     const checkIfWalletIsConnected = async () => {
       try {
         if (window.ethereum) {
@@ -31,34 +34,22 @@ export default function Index() {
     checkIfWalletIsConnected();
   }, []);
 
+  const faucet = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const voterContract = new ethers.Contract(CONTRACT_VOTER, abiVoter, signer);
+
+    await voterContract.tokenFaucet();
+  };
+
   return (
     <section>
       <ToastContainer></ToastContainer>
-      <h2>Example of voting system on blockchain</h2>
-      <p>
-        This example adds a property <code>getLayout</code> to your page,
-        allowing you to return a React component for the layout. This allows you
-        to define the layout on a per-page basis. Since we're returning a
-        function, we can have complex nested layouts if desired.
-      </p>
-      <h3>Vote on some proposals</h3>
-      <p>
-        When navigating between pages, we want to persist page state (input
-        values, scroll position, etc) for a Single-Page Application (SPA)
-        experience.
-      </p>
-      <p>
-        This layout pattern will allow for state persistence because the React
-        component tree is persisted between page transitions. To preserve state,
-        we need to prevent the React component tree from being discarded between
-        page transitions.
-      </p>
-      <h3>Try It Out</h3>
-      <p>
-        To visualize this, try tying in the search input in the{" "}
-        <code>Sidebar</code> and then changing routes. You'll notice the input
-        state is persisted.
-      </p>
+      <h2>Wolf Token</h2>
+      <p>If you want some Wolf Tokens for vote, just mint it here</p>
+      <Button onClick={faucet} color="success">
+        Get some
+      </Button>
     </section>
   );
 }
